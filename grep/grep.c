@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
+#include <windows.h>
 
 #define SUCCESS 0
 #define GREP_ERROR 1
@@ -59,7 +59,7 @@ void add_in_line(const char* line) {
   int i;
   for (i = 0; i < MAX_INPUT_LINES; i++) {
     if (g_InBuffer[i] == NULL) {
-      (const char*)g_InBuffer[i] = line;
+      g_InBuffer[i] = (char*)line;
       g_InBufferCount++;
       break;
     }
@@ -70,7 +70,8 @@ void add_in_line(const char* line) {
 
 // no need lock it mustn't change data. Read access here free
 char* GetInString() {
-  for (int i = 0; i < MAX_INPUT_LINES; i++) {
+  int i;
+  for (i = 0; i < MAX_INPUT_LINES; i++) {
     if (g_InBuffer[i] != NULL) {
       return g_InBuffer[i];
     }
@@ -81,7 +82,7 @@ char* GetInString() {
 // only one thread use it
 void push_out_delimiter_buffer(const char* line) {
   EnterCriticalSection(&g_OutBufferCrSct);
-  (const char*)g_OutBuffer[g_OutBufferPos] = line;
+  g_OutBuffer[g_OutBufferPos] = (char*)line;
   g_OutBufferPos++;
   assert(g_OutBufferPos < g_MaxLinesSearchBuffer && "Too much searched delimiter_buffers");
   LeaveCriticalSection(&g_OutBufferCrSct);
@@ -111,7 +112,7 @@ void Reader(const char* path, bool scan_tail, const char* delimiter) {
   size_t elements_read;
   const unsigned char one_element = 1;
   unsigned long previous_pos = (!scan_tail) ? 0 : file_size;
-  unsigned long line_size = 0; 
+  unsigned long line_size = 0;
 
   while (elements_read != one_element) {
     unsigned long current_pos = previous_pos;
@@ -200,7 +201,7 @@ void StartWriter(char* line) {
 
 // Thread
 // On C no regex lib for windows,
-// Manually do it quite difficult 
+// Manually do it quite difficult
 // So, it doesn't support * and ?
 DWORD Searcher(LPVOID param) {
   const char* full_mask = (const char*)param;
@@ -215,7 +216,8 @@ DWORD Searcher(LPVOID param) {
     const size_t line_size = strlen(line);
     bool found = false;
     // Search exact match
-    for (size_t i = 0; i < line_size; i++) {
+    size_t i;
+    for (i = 0; i < line_size; i++) {
       if (0 == strcmp((char const*)line[i], (char const*)full_mask)) {
         found = true;
         break;
@@ -288,8 +290,8 @@ bool Init() {
   // C-Style exception
 free_resource_with_error:
   // TODO: Sync output print
-  printf("Fail to allocate memory in Writer, to %d bytes or \n", 
-    ((g_MaxLinesSearchBuffer + 1) * sizeof(char)), 
+  printf("Fail to allocate memory in Writer, to %d bytes or \n",
+    ((g_MaxLinesSearchBuffer + 1) * sizeof(char)),
     ((MAX_INPUT_LINES + 1) * sizeof(char)));
   Destruct();
   exit(GREP_ERROR);
@@ -305,14 +307,15 @@ int Destruct() {
   CloseHandle(g_hWriter);
   CloseHandle(g_hSearcher);
 
-  for (int i = 0; i < MAX_INPUT_LINES; i++) {
+  unsigned int i;
+  for (i = 0; i < MAX_INPUT_LINES; i++) {
     free(g_InBuffer[i]);
     g_InBuffer[i] = NULL;
   }
   free(g_InBuffer);
   g_InBuffer = NULL;
 
-  for (unsigned int i = 0; i < g_MaxLinesSearchBuffer; i++) {
+  for (i = 0; i < g_MaxLinesSearchBuffer; i++) {
     free(g_OutBuffer[i]);
     g_OutBuffer[i] = NULL;
   }
