@@ -1,26 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grep", "grep\grep.vcxproj", "{C01C2620-8835-474F-8E22-70A679E919C4}"
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grep", "grep.vcxproj", "{36D979ED-F39C-4481-B2A6-4A95AC55C3E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Debug|x64.ActiveCfg = Debug|x64
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Debug|x64.Build.0 = Debug|x64
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Debug|x86.ActiveCfg = Debug|Win32
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Debug|x86.Build.0 = Debug|Win32
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Release|x64.ActiveCfg = Release|x64
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Release|x64.Build.0 = Release|x64
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Release|x86.ActiveCfg = Release|Win32
-		{C01C2620-8835-474F-8E22-70A679E919C4}.Release|x86.Build.0 = Release|Win32
+		{36D979ED-F39C-4481-B2A6-4A95AC55C3E1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{36D979ED-F39C-4481-B2A6-4A95AC55C3E1}.Debug|Win32.Build.0 = Debug|Win32
+		{36D979ED-F39C-4481-B2A6-4A95AC55C3E1}.Release|Win32.ActiveCfg = Release|Win32
+		{36D979ED-F39C-4481-B2A6-4A95AC55C3E1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

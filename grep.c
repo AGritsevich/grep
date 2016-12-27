@@ -1,6 +1,10 @@
+// ConsoleApplication1.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+//#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <windows.h>
@@ -109,7 +113,7 @@ void Reader(const char* path, bool scan_tail, const char* delimiter) {
   }
 
   // I don't now how easy in plain C read until delimiter
-  size_t elements_read;
+  size_t elements_read = 0;
   const unsigned char one_element = 1;
   unsigned long previous_pos = (!scan_tail) ? 0 : file_size;
   unsigned long line_size = 0;
@@ -165,7 +169,7 @@ DWORD Writer(LPVOID lpParam) {
   }
 
   // Make hard copy, prevent CoW optimization
-  int i;
+  size_t i;
   for (i = 0; i < string_size; i++) {
     new_line[i] = in_line[i];
   }
@@ -285,7 +289,7 @@ bool Init() {
     goto free_resource_with_error;
   }
 
-  return;
+  return true;
 
   // C-Style exception
 free_resource_with_error:
@@ -328,14 +332,18 @@ int Destruct() {
 int main(int argc, char** argv) {
   int retVal = SUCCESS;
 
-  char help_message[] = "It is grep function help message\
-    \rto run program : \
-    \r grep.exe[file_path][mask][max_delimiter_buffers][scan_tail][separator]\
-    \r file_path – mandatory, path to file\
-    \r mask      – mandatory, search mask posssible to use[*and ? ] \
-    \r max_delimiter_buffers – optional if no more parameters, delimiter_buffers to search, max = 1000 \
-    \r scan_tail – optional if no more parameters, search from end, 0 - false, any other true, default false \
-    \r separator – optional, string separator, for example <br>.Default '\\n' \n";
+  char help_message[] = "\nIt is grep function help message\
+    \n to run program : \
+    \n  grep.exe[file_path][mask][max_delimiter_buffers][scan_tail][separator]\
+	\n\n    [file_path] - mandatory, path to file\
+	\n    [mask]      - mandatory, \
+	\n                  search mask posssible to use[*and ? ] \
+	\n    [max_delimiter_buffers] � optional if no more parameters, \
+	\n                              delimiter_buffers to search, max = 1000 \
+	\n    [scan_tail] - optional if no more parameters, search from end, \
+	\n                  0 - false, any other true, default false \
+    \n    [separator] - optional, string separator, \
+	\n                  for example <br>.Default '\\n' \n";
 
   char *file_path = NULL;
   char *mask = NULL;
