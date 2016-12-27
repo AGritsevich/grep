@@ -1,13 +1,20 @@
 // ConsoleApplication1.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
 //#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <windows.h>
+
+
+#define _Bool bool
+#define bool  bool
+#define false false
+#define true  true
+ 
+#define __bool_true_false_are_defined 1
 
 #define SUCCESS 0
 #define GREP_ERROR 1
